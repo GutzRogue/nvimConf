@@ -24,6 +24,7 @@ end
 -- Bufferline: next/prev buffer
 map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer", silent = true })
 map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer", silent = true })
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close buffer", silent = true })
 
 -- Theme switching
 map("n", "<leader>t1", "<cmd>colorscheme onedark<cr>", { desc = "Theme: onedark", silent = true })
@@ -39,7 +40,6 @@ map("n", "<leader>fl", "<cmd>FzfLua lines<cr>", { desc = "Search lines", silent 
 map("n", "<leader>fg", "<cmd>FzfLua git_files<cr>", { desc = "Git files", silent = true })
 
 -- Git pickers (fzf-lua)
-map("n", "<leader>gb", "<cmd>FzfLua git_branches<cr>", { desc = "Git branches", silent = true })
 map("n", "<leader>gc", "<cmd>FzfLua git_commits<cr>", { desc = "Git commits", silent = true })
 map("n", "<leader>gC", "<cmd>FzfLua git_bcommits<cr>", { desc = "Buffer commits", silent = true })
 
