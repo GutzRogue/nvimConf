@@ -1,6 +1,7 @@
 -- lua/config/keymaps.lua
 
 local map = vim.keymap.set
+
 local opts = { silent = true }
 
 -- Quick access to edit/reload config
@@ -38,6 +39,16 @@ map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files", silent = 
 map("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find buffers", silent = true })
 map("n", "<leader>fl", "<cmd>FzfLua lines<cr>", { desc = "Search lines", silent = true })
 map("n", "<leader>fg", "<cmd>FzfLua git_files<cr>", { desc = "Git files", silent = true })
+map("n", "<leader>ss", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "Symbols (file)" })
+map("n", "<leader>sS", "<cmd>FzfLua lsp_workspace_symbols<cr>", { desc = "Symbols (project)" })
+map("n", "<leader>/", "<cmd>FzfLua live_grep<cr>", { desc = "Grep project" })
+map("n", "<leader>sl", "<cmd>FzfLua blines<cr>", { desc = "Search lines (file)" })
+
+
+-- Auto complete
+
+map("n", "<leader>k", vim.lsp.buf.signature_help, { desc = "Signature help" })
+map("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
 
 -- Git pickers (fzf-lua)
 map("n", "<leader>gc", "<cmd>FzfLua git_commits<cr>", { desc = "Git commits", silent = true })
@@ -47,4 +58,9 @@ map("n", "<leader>gC", "<cmd>FzfLua git_bcommits<cr>", { desc = "Buffer commits"
 map("n", "<leader>gs", "<cmd>Git<cr>", { desc = "Git status", silent = true })
 map("n", "<leader>gd", "<cmd>Gdiffsplit<cr>", { desc = "Git diff split", silent = true })
 map("n", "<leader>gB", "<cmd>Gblame<cr>", { desc = "Git blame", silent = true })
+
+map("n", "<F5>", function()
+  require("utils.runfile").run_file()
+end, { desc = "Run current file" })
+
 
