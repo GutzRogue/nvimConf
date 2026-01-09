@@ -59,6 +59,14 @@ map("n", "<leader>gs", "<cmd>Git<cr>", { desc = "Git status", silent = true })
 map("n", "<leader>gd", "<cmd>Gdiffsplit<cr>", { desc = "Git diff split", silent = true })
 map("n", "<leader>gB", "<cmd>Gblame<cr>", { desc = "Git blame", silent = true })
 
+-- Format
+map("n", "<leader>F", function()
+  vim.lsp.buf.format({ async = true })
+end, { desc = "Format file" })
+
+
+map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+
 map("n", "<F5>", function()
   require("utils.runfile").run_file()
 end, { desc = "Run current file" })

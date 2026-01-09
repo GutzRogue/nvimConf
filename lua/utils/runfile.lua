@@ -49,7 +49,42 @@ function M.run_file()
   elseif ft == "cs" then
     -- run C# project in current working directory (recommended)
     cmd = "dotnet run"
+  
+  elseif ft == "java" then
+    local dir = vim.fn.fnamemodify(file, ":p:h")
+    local filename = vim.fn.fnamemodify(file, ":t")
+    local classname = vim.fn.fnamemodify(file, ":t:r")
 
+    -- detect package name from file
+    local package = nil
+    for line in io.lines(file) do
+      local p = line:match("^%s*package%s+([%w%.]+)%s*;")
+      if p then
+        package = p
+        break
+      end
+    end
+
+    -- move to project root (one folder above dir)
+    local root = vim.fn.fnamemodify(dir, ":h")
+
+    if package then
+      cmd = ("cd %s && javac -d . %s/%s && java %s.%s")
+        :format(
+          vim.fn.fnameescape(root),
+          vim.fn.fnameescape(vim.fn.fnamemodify(dir, ":t")),
+          vim.fn.fnameescape(filename),
+          package,
+          classname
+        )
+    else
+      cmd = ("cd %s && javac %s && java %s")
+        :format(
+          vim.fn.fnameescape(dir),
+          vim.fn.fnameescape(filename),
+          classname
+        )
+    end
   else
     vim.notify("No runner configured for filetype: " .. ft, vim.log.levels.WARN)
     return

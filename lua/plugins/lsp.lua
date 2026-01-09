@@ -12,7 +12,13 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "mason.nvim" },
     opts = {
-      ensure_installed = { "pyright", "ts_ls", "eslint" }, -- lspconfig server names
+      ensure_installed = {
+        "pyright",
+        "ts_ls",
+        "eslint",
+        "clangd", -- ✅ C/C++
+        "jdtls",  -- ✅ Java
+      },
       automatic_installation = true,
     },
   },
@@ -33,13 +39,23 @@ return {
         -- mason package names
         "typescript-language-server",
         "eslint-lsp",
+
+        -- ✅ C/C++ tools
+        "clang-format",
+        "clangd",
+        "clang-tidy",
+
+        -- ✅ Java tools
+        "jdtls",
+        "google-java-format",
+        "java-debug-adapter",
+        "java-test",
       },
       run_on_start = true,
     },
   },
 
-  -- nvim-lspconfig is still needed to provide server definitions,
-  -- but we do NOT use require("lspconfig") anymore.
+  -- LSP config
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
@@ -51,13 +67,46 @@ return {
         capabilities = cmp_lsp.default_capabilities(capabilities)
       end
 
-      -- Neovim 0.11+ API
+      -- ------------------------------
+      -- ✅ Python / TS / ESLint
+      -- ------------------------------
       vim.lsp.config("pyright", { capabilities = capabilities })
       vim.lsp.config("ts_ls", { capabilities = capabilities })
       vim.lsp.config("eslint", { capabilities = capabilities })
 
-      vim.lsp.enable({ "pyright", "ts_ls", "eslint" })
+      -- ------------------------------
+      -- ✅ C / C++ (clangd)
+      -- ------------------------------
+      vim.lsp.config("clangd", {
+        capabilities = capabilities,
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--completion-style=detailed",
+          "--header-insertion=iwyu",
+          "--function-arg-placeholders=true",
+          "--fallback-style=llvm",
+        },
+        init_options = {
+          fallbackFlags = { "-std=c++20" },
+        },
+      })
+
+      -- Enable LSP servers
+      vim.lsp.enable({
+        "pyright",
+        "ts_ls",
+        "eslint",
+        "clangd",
+      })
     end,
+  },
+
+  -- ✅ REQUIRED for Java (jdtls needs this plugin)
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = { "java" },
   },
 }
 
