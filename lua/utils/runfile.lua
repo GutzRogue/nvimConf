@@ -85,6 +85,32 @@ function M.run_file()
           classname
         )
     end
+
+    elseif ft == "zig" then
+    local exe = temp_exe()
+    -- Compile and run using 'zig build-exe'
+    cmd = ("zig build-exe %s --cache-dir %s -O ReleaseFast -lc && ./%s")
+      :format(
+        vim.fn.fnameescape(file),
+        vim.fn.tempname(), -- Use a temporary cache dir
+        vim.fn.fnameescape(exe)
+      )
+
+    elseif ft == "rust" then
+    -- Find Cargo.toml by searching upwards from the file's directory
+    local file_dir = vim.fn.fnamemodify(file, ":p:h")
+    local cargo_toml = vim.fn.findfile("Cargo.toml", vim.fn.fnameescape(file_dir) .. ";")
+    
+    if cargo_toml ~= "" then
+      -- Get the directory containing Cargo.toml
+      local cargo_root = vim.fn.fnamemodify(cargo_toml, ":p:h")
+      cmd = ("cd %s && cargo run"):format(vim.fn.fnameescape(cargo_root))
+    else
+      local exe = temp_exe()
+      cmd = ("rustc %s -o %s && %s")
+        :format(vim.fn.fnameescape(file), vim.fn.fnameescape(exe), vim.fn.fnameescape(exe))
+    end
+
   else
     vim.notify("No runner configured for filetype: " .. ft, vim.log.levels.WARN)
     return
@@ -94,4 +120,5 @@ function M.run_file()
 end
 
 return M
+
 

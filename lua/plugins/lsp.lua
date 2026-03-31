@@ -18,6 +18,8 @@ return {
         "eslint",
         "clangd", -- ✅ C/C++
         "jdtls",  -- ✅ Java
+        "zls" ,
+        "rust_analyzer",
       },
       automatic_installation = true,
     },
@@ -50,6 +52,9 @@ return {
         "google-java-format",
         "java-debug-adapter",
         "java-test",
+
+        -- ✅ Rust tools
+        "rust-analyzer",
       },
       run_on_start = true,
     },
@@ -73,7 +78,29 @@ return {
       vim.lsp.config("pyright", { capabilities = capabilities })
       vim.lsp.config("ts_ls", { capabilities = capabilities })
       vim.lsp.config("eslint", { capabilities = capabilities })
-
+      vim.lsp.config("zls", { capabilities = capabilities })
+      vim.lsp.config("rust_analyzer", {
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+              runBuildScripts = true,
+            },
+            checkOnSave = {
+              allFeatures = true,
+              command = "clippy",
+            },
+            procMacro = {
+              enable = true,
+            },
+            files = {
+              excludeDirs = { "target", "node_modules", ".git" },
+            },
+          },
+        },
+      })
       -- ------------------------------
       -- ✅ C / C++ (clangd)
       -- ------------------------------
@@ -99,6 +126,8 @@ return {
         "ts_ls",
         "eslint",
         "clangd",
+        "zls",
+        "rust_analyzer",
       })
     end,
   },
@@ -107,6 +136,11 @@ return {
   {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
+  },
+
+    {
+    "ziglang/zig.vim",
+    ft = { "zig" },
   },
 }
 

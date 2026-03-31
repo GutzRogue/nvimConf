@@ -28,11 +28,19 @@ map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer", silent
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close buffer", silent = true })
 
 -- Theme switching
-map("n", "<leader>t1", "<cmd>colorscheme onedark<cr>", { desc = "Theme: onedark", silent = true })
-map("n", "<leader>t2", "<cmd>colorscheme tokyonight-night<cr>", { desc = "Theme: tokyonight", silent = true })
-map("n", "<leader>t3", "<cmd>colorscheme catppuccin<cr>", { desc = "Theme: catppuccin", silent = true })
-map("n", "<leader>t4", "<cmd>colorscheme kanagawa<cr>", { desc = "Theme: kanagawa", silent = true })
-map("n", "<leader>t5", "<cmd>colorscheme rose-pine<cr>", { desc = "Theme: rose-pine", silent = true })
+map("n", "<leader>tt", "<cmd>colorscheme tokyonight<cr>", { desc = "Theme: tokyonight", silent = true })
+map("n", "<leader>tc", "<cmd>colorscheme catppuccin<cr>", { desc = "Theme: catppuccin", silent = true })
+
+-- Trouble
+map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)", silent = true })
+map("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)", silent = true })
+map("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)", silent = true })
+map("n", "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", { desc = "LSP Definitions / references / ... (Trouble)", silent = true })
+map("n", "<leader>xL", "<cmd>Trouble loclist toggle<cr>", { desc = "Location List (Trouble)", silent = true })
+map("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List (Trouble)", silent = true })
+
+-- Diagnostics: show error under cursor
+map("n", "<leader>de", vim.diagnostic.open_float, { desc = "Diagnostics (line)", silent = true })
 
 -- Fuzzy finder (fzf-lua)
 map("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files", silent = true })

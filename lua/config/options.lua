@@ -2,8 +2,6 @@ vim.g.mapleader = " "
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.number = true
-
-vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Folding (VSCode-like)
@@ -30,4 +28,3 @@ vim.diagnostic.config({
     },
   },
 })
- 
