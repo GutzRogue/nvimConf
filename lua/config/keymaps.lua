@@ -58,6 +58,29 @@ map("n", "<leader>sl", "<cmd>FzfLua blines<cr>", { desc = "Search lines (file)" 
 map("n", "<leader>k", vim.lsp.buf.signature_help, { desc = "Signature help" })
 map("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
 
+-- Opencode
+map({ "n", "x" }, "<leader>aa", function()
+  require("opencode").ask("@this: ", { submit = true })
+end, { desc = "Opencode ask", silent = true })
+map({ "n", "x" }, "<leader>ap", function()
+  require("opencode").select()
+end, { desc = "Opencode picker", silent = true })
+map({ "n", "t" }, "<leader>at", function()
+  require("opencode").toggle()
+end, { desc = "Opencode toggle", silent = true })
+map({ "n", "x" }, "<leader>ar", function()
+  return require("opencode").operator("@this ")
+end, { expr = true, desc = "Opencode send range", silent = true })
+map("n", "<leader>al", function()
+  return require("opencode").operator("@this ") .. "_"
+end, { expr = true, desc = "Opencode send line", silent = true })
+map("n", "<leader>au", function()
+  require("opencode").command("session.half.page.up")
+end, { desc = "Opencode scroll up", silent = true })
+map("n", "<leader>ad", function()
+  require("opencode").command("session.half.page.down")
+end, { desc = "Opencode scroll down", silent = true })
+
 -- Git pickers (fzf-lua)
 map("n", "<leader>gc", "<cmd>FzfLua git_commits<cr>", { desc = "Git commits", silent = true })
 map("n", "<leader>gC", "<cmd>FzfLua git_bcommits<cr>", { desc = "Buffer commits", silent = true })
@@ -78,5 +101,6 @@ map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 map("n", "<F5>", function()
   require("utils.runfile").run_file()
 end, { desc = "Run current file" })
+
 
 
